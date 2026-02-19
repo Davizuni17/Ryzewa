@@ -66,10 +66,14 @@
     "typescript": "^5.8.2"
   },
   "peerDependencies": {
-    "jimp": ">=0.16.0"
+    "jimp": ">=0.16.0",
+    "sharp": ">=0.33.0"
   },
   "peerDependenciesMeta": {
     "jimp": {
+      "optional": true
+    },
+    "sharp": {
       "optional": true
     }
   },
