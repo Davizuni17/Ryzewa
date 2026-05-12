@@ -1,20 +1,19 @@
 {
-  "name": "Ryze",
-  "version": "9.2.2",
-  "description": "Ryze es una librería JavaScript ligera para interactuar con la API de WhatsApp Web usando WebSocket.",
+  "name": "ryzewa",
+  "version": "9.3.0",
+  "description": "Ryzewa - Librería JavaScript avanzada para interactuar con la API de WhatsApp Web usando WebSocket. Fork mejorado de Baileys.",
   "keywords": [
-    "facebook",
-    "metaplatforms",
-    "baileys",
-    "interactive",
-    "meta",
     "whatsapp",
     "whatsapp-bot",
-    "Ryze"
+    "whatsapp-api",
+    "baileys",
+    "ryzewa",
+    "multi-device",
+    "websocket"
   ],
-  "homepage": "https://github.com/WhiskeySockets/Baileys/",
+  "homepage": "https://github.com/Davizuni17/Ryzewa",
   "repository": {
-    "url": "git@github.com:WhiskeySockets/Baileys.git"
+    "url": "git@github.com:Davizuni17/Ryzewa.git"
   },
   "license": "MIT",
   "author": "Ryze",
@@ -25,49 +24,47 @@
     "WAProto/**/*"
   ],
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint lib --ext .js"
   },
   "dependencies": {
     "@hapi/boom": "^9.1.3",
     "@adiwajshing/keyed-db": "^0.2.4",
-    "@cacheable/node-cache": "1.5.3", 
-    "@whiskeysockets/eslint-config": "^1.0.0", 
+    "@cacheable/node-cache": "^1.5.3",
     "async-mutex": "^0.5.0",
     "axios": "^1.12.1",
-    "audio-decode": "^2.2.2", 
-    "cache-manager": "^5.7.6", 
-    "fflate": "^0.8.2", 
-    "lodash": "^4.17.21",
+    "audio-decode": "^2.2.2",
+    "cache-manager": "^5.7.6",
+    "fflate": "^0.8.2",
     "libsignal": "npm:@meta.inc/libsignal@*",
-    "link-preview-js": "^3.0.14", 
-    "lru-cache": "^11.1.0", 
+    "link-preview-js": "^3.0.14",
+    "lru-cache": "^11.1.0",
     "music-metadata": "^7.12.3",
+    "p-queue": "^8.1.0",
     "pino": "^9.6",
-    "protobufjs": "^7.2.4",
-    "qrcode-terminal": "^0.12.0", 
-    "ws": "^8.13.0"
+    "protobufjs": "^7.5.6",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
-    "@types/node": "^16.0.0",
+    "@types/node": "^20.9.0",
     "@types/ws": "^8.0.0",
-    "conventional-changelog-cli": "^2.2.2",
-    "eslint": "^8.0.0",
+    "eslint": "^9.0.0",
     "jest": "^30.1.1",
-    "jimp": "^0.22.12",
+    "jimp": "^1.6.1",
     "json": "^11.0.0",
-    "link-preview-js": "^3.0.5",
+    "link-preview-js": "^3.0.14",
     "open": "^8.4.2",
-    "release-it": "^15.10.3",
+    "release-it": "^20.0.1",
     "ts-jest": "^29.4.1",
-    "ts-node": "^10.8.1",
     "typedoc": "^0.27.9",
     "typedoc-plugin-markdown": "4.4.2",
     "typescript": "^5.8.2"
   },
   "peerDependencies": {
-    "jimp": ">=0.16.0",
-    "sharp": ">=0.33.0"
+    "jimp": ">=1.0.0",
+    "sharp": ">=0.33.0",
+    "qrcode-terminal": ">=0.12.0"
   },
   "peerDependenciesMeta": {
     "jimp": {
@@ -75,9 +72,12 @@
     },
     "sharp": {
       "optional": true
+    },
+    "qrcode-terminal": {
+      "optional": true
     }
   },
-  "packageManager": "yarn@1.22.19",
+  "packageManager": "yarn@4.9.2",
   "engines": {
     "node": ">=20.0.0"
   },
