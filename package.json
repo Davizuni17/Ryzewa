@@ -1,6 +1,6 @@
 {
   "name": "ryzewa",
-  "version": "9.3.0",
+  "version": "9.4.0",
   "description": "Ryzewa - Librería JavaScript avanzada para interactuar con la API de WhatsApp Web usando WebSocket. Fork mejorado de Baileys.",
   "keywords": [
     "whatsapp",
@@ -38,6 +38,7 @@
     "fflate": "^0.8.2",
     "libsignal": "npm:@meta.inc/libsignal@*",
     "link-preview-js": "^3.0.14",
+    "lodash": "^4.17.21",
     "lru-cache": "^11.1.0",
     "music-metadata": "^7.12.3",
     "p-queue": "^8.1.0",
