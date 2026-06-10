@@ -1,6 +1,21 @@
-# 🚀 Ryze Mejorado - Guía de Mejoras
+# 🚀 Ryzewa v9.3.0 - Guía de Mejoras
 
-## 📦 Nuevos Módulos Añadidos
+## 📋 Actualizaciones v9.3.0 (Sincronización con Baileys Oficial)
+
+### Cambios Principales:
+
+- **groups.js**: Mejor manejo de errores (surfacing de errores del servidor), campos nuevos: `notify`, `username`, `phoneNumber`, `descOwnerPn`, `descOwnerUsername`, `ownerPn`, `ownerUsername`, `subjectOwnerPn`, `subjectOwnerUsername`, `descTime`
+- **newsletter.js**: Nuevos métodos `newsletterAdminCount()` y `newsletterSubscribers()`
+- **messages-send.js**: Tracking de `mediaHost`, `devicesMutex` para seguridad de hilos, mejor deduplicación LID/PN
+- **socket.js**: Deprecación de `printQRInTerminal`, tolerancia configurable de keep-alive (`KEEP_ALIVE_TOLERANCE_MS`)
+- **messages-recv.js**: Fix de null-checks en `handleNewsletterNotification`, caché de grupo con mejor filtrado LID
+- **generics.js**: Nueva función `generateMessageIDV2()` compatible con el oficial, versión WA actualizada a `[2, 3000, 1035194821]`
+- **Types/Newsletter.js**: Nuevos QueryIds: `SUBSCRIBERS`, `UPDATE_METADATA`
+- **package.json**: Dependencias actualizadas (`protobufjs ^7.5.6`, `ws ^8.18.0`, `p-queue ^8.1.0`, etc.), eliminación de dependencias obsoletas
+
+---
+
+## 📦 Módulos Incluidos
 
 ### 1. 🛡️ Anti-Ban (`anti-ban.js`)
 
