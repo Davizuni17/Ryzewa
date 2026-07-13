@@ -1,4 +1,41 @@
-# 🚀 Ryzewa v9.3.0 - Guía de Mejoras
+# 🚀 Ryzewa v9.5.0 - Guía de Mejoras
+
+## 📋 Actualizaciones v9.5.0 (Sincronización con Baileys Oficial)
+
+### Nuevas Features del Baileys Oficial:
+
+- **community.js**: Nuevos métodos de comunidades:
+  - `communityCreateGroup(subject, participants, parentCommunityJid)` — Crear subgrupo dentro de una comunidad
+  - `communityLinkGroup(groupJid, parentCommunityJid)` — Enlazar grupo existente a comunidad
+  - `communityUnlinkGroup(groupJid, parentCommunityJid)` — Desenlazar grupo de comunidad
+  - `communityFetchLinkedGroups(jid)` — Obtener subgrupos de una comunidad (detecta automáticamente si es subgrupo o comunidad)
+- **socket.js**: Nuevas funciones de cuenta:
+  - `fetchAccountReachoutTimelock()` — Obtiene el estado de restricciones de la cuenta (reachout timelock)
+  - `fetchNewChatMessageCap()` — Obtiene cuota y uso de mensajes de nuevos chats
+  - `executeWMexQuery()` — Función interna para queries WMex genéricas
+- **messages-recv.js**: Manejo de notificaciones MEX nuevas:
+  - `NotificationReachoutTimelockUpdate` — Emite `connection.update` con `reachoutTimeLock`
+  - `NotificationNewChatMessagesCappingInfoUpdate` — Emite `message-capping.update`
+- **decode-wa-message.js**: Nuevas exports:
+  - `SERVER_ERROR_CODES` — Códigos de error del servidor (MessageAccountRestriction='463', SmaxInvalid='479')
+  - `extractAddressingContext(node)` — Extrae contexto LID/PN de un nodo de mensaje
+- **tc-token-utils.js** (NUEVO): Utilidades de Trusted Contact Tokens:
+  - `buildTcTokenFromJid(jid, creds)` — Construye un TC token desde un JID
+  - `isTcTokenExpired(token, maxAgeMs)` — Verifica si un token expiró
+  - `storeTcTokensFromIqResult(result, keys)` — Almacena tokens desde un IQ result
+  - `shouldSendNewTcToken(jid, keys, maxAgeMs)` — Determina si enviar nuevo token
+  - `resolveIssuanceJid(jid, creds)` — Resuelve JID de emisión (LID→PN)
+  - `readTcTokenIndex(keys)` / `buildMergedTcTokenIndexWrite(...)` — Gestión del índice
+- **Types/State.js**: Nuevos tipos:
+  - `ReachoutTimelockEnforcementType`, `ReachoutTimelockState`
+  - `NewChatMessageCappingStatusType`, `NewChatMessageCappingOTEStatusType`, `NewChatMessageCappingMVStatusType`, `NewChatMessageCapInfo`
+- **Types/Chat.js**: Nuevo tipo `BotListInfo`
+- **Types/Newsletter.js**: XWAPaths y QueryIds ampliados con todos los paths del oficial:
+  - `SUBSCRIBERS`, `VIEW`, `MUTE`, `UNMUTE`, `FOLLOW`, `UNFOLLOW`, `JOIN`, `LEAVE`, `CHANGE_OWNER`, `DEMOTE_NEWSLETTER`, `DELETE`
+  - `FETCH_ACCOUNT_REACHOUT_TIMELOCK`, `MESSAGE_CAPPING_INFO`
+  - QueryIds: `REACHOUT_TIMELOCK`, `MESSAGE_CAPPING_INFO`
+
+---
 
 ## 📋 Actualizaciones v9.3.0 (Sincronización con Baileys Oficial)
 
