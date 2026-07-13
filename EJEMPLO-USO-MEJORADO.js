@@ -51,7 +51,8 @@ const {
     CooldownManager,
     PermissionManager,
     parseTime,
-    formatDuration
+    formatDuration,
+    sendFast
     
 } = require('./lib')
 
@@ -263,6 +264,16 @@ async function executeCommand(sock, msg, cmd, context) {
             const start = Date.now()
             await sock.sendMessage(jid, { 
                 text: `🏓 Pong!\n⏱️ Latencia: ${Date.now() - start}ms` 
+            })
+            break
+        }
+        
+        // ⚡ Respuesta INSTANTÁNEA (sin simular "escribiendo…", mínima latencia)
+        // Ideal cuando quieres que el bot conteste súper rápido.
+        case 'fast': {
+            await sendFast(sock, jid, '⚡ Respuesta instantánea', {
+                quoted: msg,      // cita el mensaje original
+                markRead: true    // marca como leído en paralelo (no bloqueante)
             })
             break
         }
