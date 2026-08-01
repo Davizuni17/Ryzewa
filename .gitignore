@@ -1,0 +1,11 @@
+node_modules/
+
+# el proyecto usa yarn (packageManager: yarn@4.9.2)
+package-lock.json
+
+*.log
+.DS_Store
+.env
+.env.*
+auth_info*/
+baileys_store*.json
