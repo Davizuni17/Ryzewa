@@ -1761,6 +1761,7 @@ message Message {
     optional EncCommentMessage encCommentMessage = 71;
     optional BCallMessage bcallMessage = 72;
     optional FutureProofMessage lottieStickerMessage = 74;
+    optional FutureProofMessage spoilerMessage = 118;
     optional EventMessage eventMessage = 75;
     optional EncEventResponseMessage encEventResponseMessage = 76;
     optional CommentMessage commentMessage = 77;
