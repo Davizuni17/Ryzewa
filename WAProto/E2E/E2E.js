@@ -15500,6 +15500,22 @@ $root.E2E = (function() {
             StatusAudienceMetadata.prototype.audienceType = 0;
 
             /**
+             * StatusAudienceMetadata listName.
+             * @member {string} listName
+             * @memberof E2E.ContextInfo.StatusAudienceMetadata
+             * @instance
+             */
+            StatusAudienceMetadata.prototype.listName = "";
+
+            /**
+             * StatusAudienceMetadata listEmoji.
+             * @member {string} listEmoji
+             * @memberof E2E.ContextInfo.StatusAudienceMetadata
+             * @instance
+             */
+            StatusAudienceMetadata.prototype.listEmoji = "";
+
+            /**
              * Creates a new StatusAudienceMetadata instance using the specified properties.
              * @function create
              * @memberof E2E.ContextInfo.StatusAudienceMetadata
@@ -15525,6 +15541,10 @@ $root.E2E = (function() {
                     writer = $Writer.create();
                 if (message.audienceType != null && Object.hasOwnProperty.call(message, "audienceType"))
                     writer.uint32(/* id 1, wireType 0 =*/8).int32(message.audienceType);
+                if (message.listName != null && Object.hasOwnProperty.call(message, "listName"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.listName);
+                if (message.listEmoji != null && Object.hasOwnProperty.call(message, "listEmoji"))
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.listEmoji);
                 return writer;
             };
 
@@ -15563,6 +15583,14 @@ $root.E2E = (function() {
                     switch (tag >>> 3) {
                     case 1: {
                             message.audienceType = reader.int32();
+                            break;
+                        }
+                    case 2: {
+                            message.listName = reader.string();
+                            break;
+                        }
+                    case 3: {
+                            message.listEmoji = reader.string();
                             break;
                         }
                     default:
@@ -15606,8 +15634,15 @@ $root.E2E = (function() {
                         return "audienceType: enum value expected";
                     case 0:
                     case 1:
+                    case 2:
                         break;
                     }
+                if (message.listName != null && message.hasOwnProperty("listName"))
+                    if (!$util.isString(message.listName))
+                        return "listName: string expected";
+                if (message.listEmoji != null && message.hasOwnProperty("listEmoji"))
+                    if (!$util.isString(message.listEmoji))
+                        return "listEmoji: string expected";
                 return null;
             };
 
@@ -15638,7 +15673,15 @@ $root.E2E = (function() {
                 case 1:
                     message.audienceType = 1;
                     break;
+                case "CUSTOM_LIST":
+                case 2:
+                    message.audienceType = 2;
+                    break;
                 }
+                if (object.listName != null)
+                    message.listName = String(object.listName);
+                if (object.listEmoji != null)
+                    message.listEmoji = String(object.listEmoji);
                 return message;
             };
 
@@ -15655,10 +15698,17 @@ $root.E2E = (function() {
                 if (!options)
                     options = {};
                 var object = {};
-                if (options.defaults)
+                if (options.defaults) {
                     object.audienceType = options.enums === String ? "UNKNOWN" : 0;
+                    object.listName = "";
+                    object.listEmoji = "";
+                }
                 if (message.audienceType != null && message.hasOwnProperty("audienceType"))
                     object.audienceType = options.enums === String ? $root.E2E.ContextInfo.StatusAudienceMetadata.AudienceType[message.audienceType] === undefined ? message.audienceType : $root.E2E.ContextInfo.StatusAudienceMetadata.AudienceType[message.audienceType] : message.audienceType;
+                if (message.listName != null && message.hasOwnProperty("listName"))
+                    object.listName = message.listName;
+                if (message.listEmoji != null && message.hasOwnProperty("listEmoji"))
+                    object.listEmoji = message.listEmoji;
                 return object;
             };
 
@@ -15699,6 +15749,7 @@ $root.E2E = (function() {
                 var valuesById = {}, values = Object.create(valuesById);
                 values[valuesById[0] = "UNKNOWN"] = 0;
                 values[valuesById[1] = "CLOSE_FRIENDS"] = 1;
+                values[valuesById[2] = "CUSTOM_LIST"] = 2;
                 return values;
             })();
 
