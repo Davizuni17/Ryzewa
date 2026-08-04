@@ -134,7 +134,7 @@ const sock = makeWASocket({
 if (!sock.authState.creds.registered) {
   const numero = "62xxxx" // Tu número de teléfono
 
-  // usar código de emparejamiento por defecto (ej. 123-456)
+  // usar código de emparejamiento por defecto (RYZEWABI)
   const codigo = await sock.requestPairingCode(numero)
 
   // usar código personalizado (8 dígitos)
