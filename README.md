@@ -3,9 +3,10 @@
 </h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Versión-9.2.2-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" />
+  <img src="https://img.shields.io/badge/Versión-9.6.0-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" />
   <img src="https://img.shields.io/badge/Node.js-20+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" />
   <img src="https://img.shields.io/badge/Estado-Beta-FFAA00?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/CommonJS-✔-yellow?style=for-the-badge&logo=javascript&logoColor=black" />
 </p>
 
 ---
@@ -20,16 +21,37 @@
 
 - ✅ **Soporte Multi-Dispositivo**
 - 🔄 **Mensajería en Tiempo Real** (texto, multimedia, encuestas, botones)
+- ✨ **Mensajes Enriquecidos** — tablas, bloques de código con resaltado, citas con fuentes
+- 👉🏻 **Mensajes Interactivos** — botones, listas, native flows, plantillas y carruseles
 - 🛠️ **Gestión de Grupos y Canales** (crear, modificar, invitar)
-- 🔒 **Cifrado de Extremo a Extremo**
-- 📦 **Persistencia de Sesiones**
+- 🔒 **Cifrado de Extremo a Extremo** + **reporting tokens** nativos
+- 📦 **Persistencia de Sesiones** (archivos, MongoDB o **SQLite**)
 
 ---
 
 ## ⟩ Registro de Cambios
 
-> [!NOTE]
-> Mejoras las cuales trae la Baileys.
+### 🆕 v9.6.0 — Mensajes enriquecidos y protocolo
+
+> [!TIP]
+> Todo lo nuevo de esta versión está documentado en
+> [**✨ Novedades v9.6**](#-novedades-v96).
+
+- ✨ **Rich Response** — mensajes con [tablas](#-tabla), [bloques de código resaltados](#-bloque-de-código) y [citas con fuentes](#-citas-con-fuentes)
+- 🎨 **Resaltado de sintaxis** para 25 lenguajes (JS, TS, Python, Go, Rust, C/C++, C#, Bash, CMD, PowerShell, HTML, CSS…)
+- 📑 **`spoiler`** — oculta el contenido tras un toque
+- 🧾 **`invoiceNote`** — [mensajes de factura](#-factura) con imagen o PDF adjunto
+- 🫙 **`interactiveAsTemplate`** — [envuelve un interactivo en plantilla](#-interactivo-como-plantilla)
+- 🏷️ **`secureMetaServiceLabel`** — etiqueta de servicio seguro de Meta
+- 📣 **`mentionAll`** — menciona a todo el grupo sin listar JIDs
+- 🧩 **`raw`** — construye el mensaje manualmente sin transformaciones
+- 🔐 **Reporting tokens** — los mensajes salen reportables, igual que WhatsApp Web
+- 🗄️ **`useSqliteAuthState`** — sesión en una sola base SQLite en vez de miles de JSON
+- 🔁 **`handleIdentityChange`** — refresco inteligente de sesión al reinstalar un contacto
+- 🐛 **Arreglado**: `interactiveButtons` sin media lanzaba `Invalid media type`
+- 🐛 **Arreglado**: las reacciones y votos ya no incluyen `messageSecret` innecesario
+
+### Versiones anteriores
 
 - 🦖 Mensaje con Logo AI
 - 🚀 Limpieza de Buffer del Logger
@@ -574,6 +596,323 @@ await sock.sendMessage(jid, {
 })
 ```
 </details>
+</details>
+
+<br>
+
+### ✨ Novedades v9.6
+
+> [!NOTE]
+> Todas estas opciones se pasan dentro del objeto `content` de `sock.sendMessage(jid, content)`.
+
+<details open>
+<summary><strong>📋 Tabla</strong></summary>
+
+Envía una tabla real renderizada por WhatsApp. La primera fila es el encabezado
+salvo que pases `noHeading: true`.
+
+```javascript
+await sock.sendMessage(jid, {
+  title: 'Ventas del mes',
+  table: [
+    ['Producto', 'Cantidad', 'Total'],
+    ['Camisetas', '120', '$2,400'],
+    ['Gorras',    '45',  '$675'],
+    ['Tazas',     '80',  '$960']
+  ]
+})
+
+// Sin fila de encabezado
+await sock.sendMessage(jid, {
+  table: [['A', '1'], ['B', '2']],
+  noHeading: true
+})
+```
+</details>
+
+<details>
+<summary><strong>🧾 Bloque de Código</strong></summary>
+
+El código se tokeniza y se envía ya resaltado. Si omites `language`, se usa `javascript`.
+
+```javascript
+await sock.sendMessage(jid, {
+  headerText: 'Ejemplo en Python',
+  code: `def saludar(nombre):
+    # esto es un comentario
+    return f"Hola {nombre}"`,
+  language: 'python',
+  footerText: 'Generado con Ryzewa'
+})
+```
+
+**Lenguajes soportados:**
+
+| | | | |
+|---|---|---|---|
+| `javascript` / `js` | `typescript` / `ts` | `python` / `py` | `go` / `golang` |
+| `rust` / `rs` | `c` / `h` | `cpp` / `c++` | `csharp` / `cs` |
+| `bash` / `sh` / `zsh` | `cmd` / `bat` | `powershell` / `ps1` | `html` / `css` |
+
+</details>
+
+<details>
+<summary><strong>🌏 Citas con Fuentes</strong></summary>
+
+Añade referencias numeradas al estilo de las respuestas de IA.
+
+```javascript
+await sock.sendMessage(jid, {
+  links: [
+    {
+      text: 'La capital de Francia es París',
+      url: 'https://es.wikipedia.org/wiki/París',
+      title: 'París — Wikipedia',
+      displayName: 'Wikipedia',
+      sources: [
+        { displayName: 'Wikipedia', subtitle: 'Enciclopedia libre', url: 'https://es.wikipedia.org' }
+      ]
+    }
+  ]
+})
+```
+</details>
+
+<details>
+<summary><strong>✨ Rich Response (por secciones)</strong></summary>
+
+Para combinar varios bloques en un mismo mensaje, usa el array `richResponse`.
+Cada elemento es una sección independiente.
+
+```javascript
+await sock.sendMessage(jid, {
+  richResponse: [
+    { text: '**Reporte diario**' },
+    { code: 'SELECT * FROM ventas WHERE dia = HOY;', language: 'sql' },
+    {
+      title: 'Resumen',
+      table: [
+        { isHeading: true, items: ['Métrica', 'Valor'] },
+        { isHeading: false, items: ['Pedidos', '245'] },
+        { isHeading: false, items: ['Ingresos', '$4,035'] }
+      ]
+    },
+    { text: '_Actualizado hace 5 minutos_' }
+  ],
+  disclaimerText: 'Datos generados automáticamente'
+})
+```
+
+**Tipos de sección disponibles:** `text`, `code`, `table`, `items`, `inlineImage`, `latex`.
+</details>
+
+<details>
+<summary><strong>📑 Spoiler</strong></summary>
+
+Oculta el contenido hasta que el receptor lo toca. Funciona con texto y con multimedia.
+
+```javascript
+await sock.sendMessage(jid, {
+  image: { url: './final-pelicula.jpg' },
+  caption: '¡No mires si no la has visto!',
+  spoiler: true
+})
+
+await sock.sendMessage(jid, { text: 'El mayordomo fue', spoiler: true })
+```
+</details>
+
+<details>
+<summary><strong>🧾 Factura</strong></summary>
+
+Convierte una imagen o un PDF ya adjunto en un mensaje de factura nativo.
+
+```javascript
+// Factura con imagen
+await sock.sendMessage(jid, {
+  image: { url: './factura.jpg' },
+  invoiceNote: 'Factura #00123 — Total: $450.00'
+})
+
+// Factura con PDF
+await sock.sendMessage(jid, {
+  document: { url: './factura.pdf' },
+  mimetype: 'application/pdf',
+  fileName: 'factura-00123.pdf',
+  invoiceNote: 'Factura #00123'
+})
+```
+
+> [!WARNING]
+> `invoiceNote` requiere obligatoriamente un `image` o un `document`. Sin adjunto lanza error.
+</details>
+
+<details>
+<summary><strong>🫙 Interactivo como Plantilla</strong></summary>
+
+Envuelve un `interactiveMessage` dentro de un `templateMessage`. Útil cuando el
+cliente destino renderiza mejor las plantillas.
+
+```javascript
+await sock.sendMessage(jid, {
+  text: '¿Confirmas tu pedido?',
+  footer: '© Ryzewa',
+  interactiveButtons: [
+    {
+      name: 'quick_reply',
+      buttonParamsJson: JSON.stringify({ display_text: 'Confirmar', id: 'ok' })
+    }
+  ],
+  interactiveAsTemplate: true,
+  id: 'pedido-123'   // opcional: templateId personalizado
+})
+```
+</details>
+
+<details>
+<summary><strong>📣 Mencionar a Todos</strong></summary>
+
+```javascript
+// Menciona a todo el grupo — sin necesidad de listar los JIDs
+await sock.sendMessage(groupJid, {
+  text: '¡Reunión en 10 minutos!',
+  mentionAll: true
+})
+```
+</details>
+
+<details>
+<summary><strong>🏷️ Etiqueta de Servicio Seguro</strong></summary>
+
+Añade la etiqueta de servicio seguro de Meta al mensaje.
+
+```javascript
+await sock.sendMessage(jid, {
+  text: 'Tu código de verificación es 123456',
+  secureMetaServiceLabel: true
+})
+```
+</details>
+
+<details>
+<summary><strong>🐱 Sticker Lottie</strong></summary>
+
+```javascript
+await sock.sendMessage(jid, {
+  sticker: { url: './animado.webp' },
+  isLottie: true
+})
+```
+</details>
+
+<details>
+<summary><strong>🧩 Mensaje Crudo (raw)</strong></summary>
+
+Construye el protobuf a mano, sin que Ryzewa lo transforme. Para casos avanzados.
+
+```javascript
+await sock.sendMessage(jid, {
+  raw: true,
+  extendedTextMessage: {
+    text: 'Mensaje construido manualmente',
+    contextInfo: { isForwarded: true, forwardingScore: 99 }
+  }
+})
+```
+
+> [!CAUTION]
+> `raw` desactiva todas las validaciones. Úsalo solo si sabes exactamente qué estás enviando.
+</details>
+
+<br>
+
+### ➤ Sesión en SQLite
+
+En bots con mucho tráfico, `useMultiFileAuthState` genera miles de archivos JSON.
+`useSqliteAuthState` guarda todo en una sola base con índices — mucho menos I/O.
+
+```bash
+npm install better-sqlite3
+```
+
+```javascript
+const { useSqliteAuthState } = require('ryzewa')
+
+const { state, saveCreds, clearKeys, close } = await useSqliteAuthState({
+  dbPath: './sesion.db'
+})
+
+const sock = makeWASocket({ auth: state })
+sock.ev.on('creds.update', saveCreds)
+
+// await clearKeys()  // borra las claves Signal conservando las credenciales
+// close()            // cierra la base de datos
+```
+
+También puedes pasar una instancia ya abierta con `{ database: miDb }`.
+
+<br>
+
+### ➤ Utilidades Nuevas
+
+<details>
+<summary><strong>🎨 tokenizeCode — resaltado manual</strong></summary>
+
+```javascript
+const { tokenizeCode, CodeHighlightType } = require('ryzewa')
+
+const tokens = tokenizeCode('const x = 42 // hola', 'javascript')
+// [{ highlightType: 1, codeContent: 'const' }, ...]
+// 0=DEFAULT 1=KEYWORD 2=METHOD 3=STRING 4=NUMBER 5=COMMENT
+```
+</details>
+
+<details>
+<summary><strong>🔐 Reporting Tokens</strong></summary>
+
+Ryzewa adjunta automáticamente el `reporting_token` a cada mensaje saliente,
+igual que WhatsApp Web, para que el receptor pueda reportarlo. No hay que
+configurar nada, pero las funciones están expuestas:
+
+```javascript
+const { shouldIncludeReportingToken, getMessageReportingToken } = require('ryzewa')
+
+shouldIncludeReportingToken({ conversation: 'hola' })      // true
+shouldIncludeReportingToken({ reactionMessage: {} })       // false
+```
+</details>
+
+<details>
+<summary><strong>🔁 handleIdentityChange</strong></summary>
+
+Decide si hay que refrescar la sesión Signal cuando un contacto reinstala
+WhatsApp. Ignora dispositivos companion, la identidad propia, notificaciones
+offline y contactos sin sesión previa.
+
+```javascript
+const { handleIdentityChange } = require('ryzewa')
+
+const resultado = await handleIdentityChange(node, {
+  logger,
+  meId: sock.user.id,
+  meLid: sock.user.lid,
+  debounceCache,
+  validateSession: jid => ({ exists: true }),
+  assertSessions: sock.assertSessions
+})
+// resultado.action: 'session_refreshed' | 'debounced' | 'skipped_no_session' | ...
+```
+</details>
+
+<details>
+<summary><strong>📨 buildAckStanza</strong></summary>
+
+```javascript
+const { buildAckStanza } = require('ryzewa')
+
+const ack  = buildAckStanza(node, undefined, sock.user.id)  // ACK
+const nack = buildAckStanza(node, 500, sock.user.id)        // NACK con error
+```
 </details>
 
 <br>

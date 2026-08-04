@@ -10662,6 +10662,7 @@ $root.E2E = (function() {
          * @property {number|null} [conversionDelaySeconds] ContextInfo conversionDelaySeconds
          * @property {number|null} [forwardingScore] ContextInfo forwardingScore
          * @property {boolean|null} [isForwarded] ContextInfo isForwarded
+         * @property {boolean|null} [isSpoiler] ContextInfo isSpoiler
          * @property {E2E.ContextInfo.IAdReplyInfo|null} [quotedAd] ContextInfo quotedAd
          * @property {Protocol.IMessageKey|null} [placeholderKey] ContextInfo placeholderKey
          * @property {number|null} [expiration] ContextInfo expiration
@@ -10805,6 +10806,14 @@ $root.E2E = (function() {
          * @instance
          */
         ContextInfo.prototype.isForwarded = false;
+
+        /**
+         * ContextInfo isSpoiler.
+         * @member {boolean} isSpoiler
+         * @memberof E2E.ContextInfo
+         * @instance
+         */
+        ContextInfo.prototype.isSpoiler = false;
 
         /**
          * ContextInfo quotedAd.
@@ -11203,6 +11212,8 @@ $root.E2E = (function() {
                 writer.uint32(/* id 21, wireType 0 =*/168).uint32(message.forwardingScore);
             if (message.isForwarded != null && Object.hasOwnProperty.call(message, "isForwarded"))
                 writer.uint32(/* id 22, wireType 0 =*/176).bool(message.isForwarded);
+            if (message.isSpoiler != null && Object.hasOwnProperty.call(message, "isSpoiler"))
+                writer.uint32(/* id 73, wireType 0 =*/584).bool(message.isSpoiler);
             if (message.quotedAd != null && Object.hasOwnProperty.call(message, "quotedAd"))
                 $root.E2E.ContextInfo.AdReplyInfo.encode(message.quotedAd, writer.uint32(/* id 23, wireType 2 =*/186).fork()).ldelim();
             if (message.placeholderKey != null && Object.hasOwnProperty.call(message, "placeholderKey"))
@@ -11369,6 +11380,10 @@ $root.E2E = (function() {
                     }
                 case 22: {
                         message.isForwarded = reader.bool();
+                        break;
+                    }
+                case 73: {
+                        message.isSpoiler = reader.bool();
                         break;
                     }
                 case 23: {
@@ -11621,6 +11636,8 @@ $root.E2E = (function() {
                     return "forwardingScore: integer expected";
             if (message.isForwarded != null && message.hasOwnProperty("isForwarded"))
                 if (typeof message.isForwarded !== "boolean")
+            if (message.isSpoiler != null && message.hasOwnProperty("isSpoiler"))
+                if (typeof message.isSpoiler !== "boolean")
                     return "isForwarded: boolean expected";
             if (message.quotedAd != null && message.hasOwnProperty("quotedAd")) {
                 var error = $root.E2E.ContextInfo.AdReplyInfo.verify(message.quotedAd);
@@ -11883,6 +11900,8 @@ $root.E2E = (function() {
                 message.forwardingScore = object.forwardingScore >>> 0;
             if (object.isForwarded != null)
                 message.isForwarded = Boolean(object.isForwarded);
+            if (object.isSpoiler != null)
+                message.isSpoiler = Boolean(object.isSpoiler);
             if (object.quotedAd != null) {
                 if (typeof object.quotedAd !== "object")
                     throw TypeError(".E2E.ContextInfo.quotedAd: object expected");
@@ -12216,6 +12235,7 @@ $root.E2E = (function() {
                 object.conversionDelaySeconds = 0;
                 object.forwardingScore = 0;
                 object.isForwarded = false;
+                object.isSpoiler = false;
                 object.quotedAd = null;
                 object.placeholderKey = null;
                 object.expiration = 0;
@@ -12298,6 +12318,8 @@ $root.E2E = (function() {
                 object.forwardingScore = message.forwardingScore;
             if (message.isForwarded != null && message.hasOwnProperty("isForwarded"))
                 object.isForwarded = message.isForwarded;
+            if (message.isSpoiler != null && message.hasOwnProperty("isSpoiler"))
+                object.isSpoiler = message.isSpoiler;
             if (message.quotedAd != null && message.hasOwnProperty("quotedAd"))
                 object.quotedAd = $root.E2E.ContextInfo.AdReplyInfo.toObject(message.quotedAd, options);
             if (message.placeholderKey != null && message.hasOwnProperty("placeholderKey"))
@@ -16005,6 +16027,7 @@ $root.E2E = (function() {
          * @property {E2E.Message.IEncCommentMessage|null} [encCommentMessage] Message encCommentMessage
          * @property {E2E.Message.IBCallMessage|null} [bcallMessage] Message bcallMessage
          * @property {E2E.Message.IFutureProofMessage|null} [lottieStickerMessage] Message lottieStickerMessage
+         * @property {E2E.Message.IFutureProofMessage|null} [spoilerMessage] Message spoilerMessage
          * @property {E2E.Message.IEventMessage|null} [eventMessage] Message eventMessage
          * @property {E2E.Message.IEncEventResponseMessage|null} [encEventResponseMessage] Message encEventResponseMessage
          * @property {E2E.Message.ICommentMessage|null} [commentMessage] Message commentMessage
@@ -16550,6 +16573,14 @@ $root.E2E = (function() {
         Message.prototype.lottieStickerMessage = null;
 
         /**
+         * Message spoilerMessage.
+         * @member {E2E.Message.IFutureProofMessage|null|undefined} spoilerMessage
+         * @memberof E2E.Message
+         * @instance
+         */
+        Message.prototype.spoilerMessage = null;
+
+        /**
          * Message eventMessage.
          * @member {E2E.Message.IEventMessage|null|undefined} eventMessage
          * @memberof E2E.Message
@@ -16945,6 +16976,8 @@ $root.E2E = (function() {
                 $root.E2E.Message.BCallMessage.encode(message.bcallMessage, writer.uint32(/* id 72, wireType 2 =*/578).fork()).ldelim();
             if (message.lottieStickerMessage != null && Object.hasOwnProperty.call(message, "lottieStickerMessage"))
                 $root.E2E.Message.FutureProofMessage.encode(message.lottieStickerMessage, writer.uint32(/* id 74, wireType 2 =*/594).fork()).ldelim();
+            if (message.spoilerMessage != null && Object.hasOwnProperty.call(message, "spoilerMessage"))
+                $root.E2E.Message.FutureProofMessage.encode(message.spoilerMessage, writer.uint32(/* id 118, wireType 2 =*/946).fork()).ldelim();
             if (message.eventMessage != null && Object.hasOwnProperty.call(message, "eventMessage"))
                 $root.E2E.Message.EventMessage.encode(message.eventMessage, writer.uint32(/* id 75, wireType 2 =*/602).fork()).ldelim();
             if (message.encEventResponseMessage != null && Object.hasOwnProperty.call(message, "encEventResponseMessage"))
@@ -17289,6 +17322,10 @@ $root.E2E = (function() {
                     }
                 case 74: {
                         message.lottieStickerMessage = $root.E2E.Message.FutureProofMessage.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 118: {
+                        message.spoilerMessage = $root.E2E.Message.FutureProofMessage.decode(reader, reader.uint32());
                         break;
                     }
                 case 75: {
@@ -17752,6 +17789,11 @@ $root.E2E = (function() {
                 var error = $root.E2E.Message.BCallMessage.verify(message.bcallMessage);
                 if (error)
                     return "bcallMessage." + error;
+            }
+            if (message.spoilerMessage != null && message.hasOwnProperty("spoilerMessage")) {
+                var error = $root.E2E.Message.FutureProofMessage.verify(message.spoilerMessage);
+                if (error)
+                    return "spoilerMessage." + error;
             }
             if (message.lottieStickerMessage != null && message.hasOwnProperty("lottieStickerMessage")) {
                 var error = $root.E2E.Message.FutureProofMessage.verify(message.lottieStickerMessage);
@@ -18230,6 +18272,11 @@ $root.E2E = (function() {
                     throw TypeError(".E2E.Message.bcallMessage: object expected");
                 message.bcallMessage = $root.E2E.Message.BCallMessage.fromObject(object.bcallMessage);
             }
+            if (object.spoilerMessage != null) {
+                if (typeof object.spoilerMessage !== "object")
+                    throw TypeError(".E2E.Message.spoilerMessage: object expected");
+                message.spoilerMessage = $root.E2E.Message.FutureProofMessage.fromObject(object.spoilerMessage);
+            }
             if (object.lottieStickerMessage != null) {
                 if (typeof object.lottieStickerMessage !== "object")
                     throw TypeError(".E2E.Message.lottieStickerMessage: object expected");
@@ -18469,6 +18516,7 @@ $root.E2E = (function() {
                 object.encCommentMessage = null;
                 object.bcallMessage = null;
                 object.lottieStickerMessage = null;
+                object.spoilerMessage = null;
                 object.eventMessage = null;
                 object.encEventResponseMessage = null;
                 object.commentMessage = null;
@@ -18625,6 +18673,8 @@ $root.E2E = (function() {
                 object.bcallMessage = $root.E2E.Message.BCallMessage.toObject(message.bcallMessage, options);
             if (message.lottieStickerMessage != null && message.hasOwnProperty("lottieStickerMessage"))
                 object.lottieStickerMessage = $root.E2E.Message.FutureProofMessage.toObject(message.lottieStickerMessage, options);
+            if (message.spoilerMessage != null && message.hasOwnProperty("spoilerMessage"))
+                object.spoilerMessage = $root.E2E.Message.FutureProofMessage.toObject(message.spoilerMessage, options);
             if (message.eventMessage != null && message.hasOwnProperty("eventMessage"))
                 object.eventMessage = $root.E2E.Message.EventMessage.toObject(message.eventMessage, options);
             if (message.encEventResponseMessage != null && message.hasOwnProperty("encEventResponseMessage"))

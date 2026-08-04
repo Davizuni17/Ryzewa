@@ -1,7 +1,7 @@
 {
   "name": "ryzewa",
-  "version": "9.5.0",
-  "description": "Ryzewa - Librería JavaScript avanzada para interactuar con la API de WhatsApp Web usando WebSocket. Fork mejorado de Baileys.",
+  "version": "9.6.0",
+  "description": "Ryzewa - Librería JavaScript avanzada para interactuar con la API de WhatsApp Web usando WebSocket. Fork mejorado de Baileys con mensajes enriquecidos, interactivos y reporting tokens.",
   "keywords": [
     "whatsapp",
     "whatsapp-bot",
@@ -9,7 +9,11 @@
     "baileys",
     "ryzewa",
     "multi-device",
-    "websocket"
+    "websocket",
+    "interactive-messages",
+    "rich-response",
+    "buttons",
+    "carousel"
   ],
   "homepage": "https://github.com/Davizuni17/Ryzewa",
   "repository": {
@@ -65,7 +69,9 @@
   "peerDependencies": {
     "jimp": ">=1.0.0",
     "sharp": ">=0.33.0",
-    "qrcode-terminal": ">=0.12.0"
+    "qrcode-terminal": ">=0.12.0",
+    "better-sqlite3": ">=11.0.0",
+    "@napi-rs/image": ">=1.12.0"
   },
   "peerDependenciesMeta": {
     "jimp": {
@@ -75,6 +81,12 @@
       "optional": true
     },
     "qrcode-terminal": {
+      "optional": true
+    },
+    "better-sqlite3": {
+      "optional": true
+    },
+    "@napi-rs/image": {
       "optional": true
     }
   },
