@@ -127,7 +127,21 @@ rich.has('estado')       // true
 rich.ids()               // ['estado']
 ```
 
-`send()` guarda la key del mensaje; `edit(jid)` reenvía el contenido actual como edición del último mensaje (útil para actualizar en vivo).
+`insertAt` acepta un índice numérico o el **id** de un nodo existente (inserta en su posición).
+
+`send()` guarda la key del mensaje; `sendEdit()` reenvía el contenido actual como edición del último mensaje enviado — ideal para actualizar en vivo:
+
+```js
+const rich = new AIRich(conn).setTitle('Mi bot').addText('Generando el video...', { id: 'status' })
+await rich.send(jid)
+rich.addVideo('', { status: 'GENERATING', estimatedTime: 15000, insertAt: 'status', id: 'art' })
+await rich.sendEdit()
+// ...cuando el video esté listo:
+rich.addVideo('https://cdn.ejemplo.com/video.mp4', { replace: 'art' })
+rich.addText('Listo.', { replace: 'status' })
+rich.addSuggest(['Otro', 'Más largo'])
+await rich.sendEdit()
+```
 
 Opciones del constructor: `new AIRich(sock, { dynamic: true, unsupportedTypeAlert: true })` — `dynamic` regenera los response ids en cada build; `unsupportedTypeAlert` añade un aviso de texto para clientes que no renderizan ciertos primitivos.
 
