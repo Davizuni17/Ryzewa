@@ -1,5 +1,7 @@
 # Módulo Interactive (v4.7)
 
+> Basado en **NIXCODE MessageBuilder V4.7**, creado por [Nixel](https://whatsapp.com/channel/0029VbCV1ck8fewpdNb2TY2k) (contribuciones: ~ Ahmad tumbuh kembang). Portado a CommonJS e integrado en Ryzewa con su permiso de uso y modificación.
+
 Builders de mensajes interactivos y enriquecidos integrados en Ryzewa. Todo se exporta desde el paquete principal:
 
 ```js
@@ -127,9 +129,12 @@ rich.has('estado')       // true
 rich.ids()               // ['estado']
 ```
 
-`insertAt` acepta un índice numérico o el **id** de un nodo existente (inserta en su posición).
+- `insertAt: 'id'` inserta **después** del nodo con ese id; `insertAt: ['id', -1]` inserta antes (acepta `[id, offset]`).
+- `replace: 'id'` reemplaza el nodo y conserva su id.
+- `delete('id')` elimina un nodo; `hasId(id)`, `getIds()`, `peek(id)`, `assignId(index, id)` para inspección.
+- `.items` extrae los primitivos de una instancia para mezclarlos en otra con `addSection(AIRich.newLayout('HScroll', otro.items))`.
 
-`send()` guarda la key del mensaje; `sendEdit()` reenvía el contenido actual como edición del último mensaje enviado — ideal para actualizar en vivo:
+`send()` envía y hace una **auto-edición inmediata** (`bypassDownload`, activada por defecto) para que la media se renderice sin botón de descarga. `sendEdit(jid?, id?)` edita el último mensaje enviado con el contenido actual — la edición viaja envuelta en `botForwardedMessage` (así hace Meta AI el streaming):
 
 ```js
 const rich = new AIRich(conn).setTitle('Mi bot').addText('Generando el video...', { id: 'status' })
