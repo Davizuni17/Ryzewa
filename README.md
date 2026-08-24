@@ -31,6 +31,29 @@
 
 ## ⟩ Registro de Cambios
 
+### 🆕 Módulo Interactive — builders de botones y AI Rich
+
+> [!TIP]
+> Nuevos builders encadenables exportados desde el paquete principal:
+> `Button`, `ButtonV2`, `Carousel`, `AIRich` y `Toolkit`.
+> Documentación completa con ejemplos en [`lib/Interactive/README.md`](lib/Interactive/README.md).
+
+```js
+const { Button, AIRich } = require('ryzewa')
+
+await new Button(sock)
+    .setBody('Elige una opción')
+    .addReply('📋 Menú', '.menu')
+    .addUrl('🌐 Canal', 'https://whatsapp.com/channel/xxxx')
+    .send(jid, { quoted: m })
+
+await new AIRich(sock)
+    .setTitle('Mi Bot AI')
+    .addText('Hola, esto es *markdown* con [un link](https://ejemplo.com)')
+    .addSuggest(['📋 Menú', '❓ Ayuda'])
+    .send(jid, { quoted: m })
+```
+
 ### 🆕 v9.6.0 — Mensajes enriquecidos y protocolo
 
 > [!TIP]
